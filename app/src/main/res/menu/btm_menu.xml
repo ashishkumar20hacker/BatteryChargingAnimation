@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/battery_btm_nav"
+        android:title="@string/battery" />
+    <item
+        android:id="@+id/home_btm_nav"
+        android:checked="true"
+        android:title="@string/battery" />
+    <item
+        android:id="@+id/animation_btm_nav"
+        android:title="@string/battery" />
+
+</menu>

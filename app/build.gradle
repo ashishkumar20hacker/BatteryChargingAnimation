@@ -1,0 +1,98 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
+
+}
+
+android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\admin\\Downloads\\jks folder\\battery_charging_animation.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+            keyPassword '123456'
+        }
+    }
+    namespace 'com.batteryanimation.neonbatteryeffects.charge'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.batteryanimation.neonbatteryeffects.charge"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        setProperty("archivesBaseName", "BATTERY_CHARGING_ANIMATION_" + versionCode + "(" + versionName + ")")
+        signingConfig signingConfigs.release
+
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        applicationVariants.all {
+            variant ->
+                variant.outputs.each {
+                    output ->
+                        def name = "BATTERY_CHARGING_ANIMATION_${variant.versionName}.apk"
+                        output.outputFileName = name
+                }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+        buildConfig = true
+    }
+
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21"
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    //Gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
+
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+
+//Lottie
+    implementation 'com.airbnb.android:lottie:6.0.0'
+
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
+    implementation 'androidx.lifecycle:lifecycle-process:2.6.2'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.google.android.play:review:2.0.1'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(path: ':adsmodule')
+    implementation 'androidx.lifecycle:lifecycle-process:2.6.1'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
+    implementation 'androidx.work:work-runtime:2.8.1'
+
+
+
+}

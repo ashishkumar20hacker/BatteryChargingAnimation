@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Battery Charging Animation</string>
+    <string name="next">Next</string>
+    <string name="title_1">Battery Life Information</string>
+    <string name="title_2">Battery Animations</string>
+    <string name="title_3">Smart Battery Experience</string>
+    <string name="desc_1"><![CDATA[Welcome to Battery Charging Animation app! Keep your device charged and ready with easy tips & tricks and get helpful information for lasting power.]]></string>
+    <string name="desc_2">Add life to your screen with fun and cool animations while your battery charges. Watch your device come alive as you power up!</string>
+    <string name="desc_3">Charge up with fun animations, get battery insights, and health tips. Everything you need for a smarter battery experience!</string>
+
+    <string name="tc">
+    Posting rules you should be taking care of before you start interaction on our website/application: Battery Charging Animation
+    \n
+    \nAssuring you carry the rights and eligibility to post any form of content you are about to share. We never permit nudism on application/website.
+    \n
+    \nWe won\'t allow posting of sexually explicit content, sexually explicit text, images, or audio content depicting extreme sexual acts such as acts of posting Content that drives traffic to pornographic online services. Please note that we may make exceptions based on artistic, educational, historical, documentary, or scientific nature, or where there are other considerable benefits to the public at large.
+    \n
+    \nWe don\'t permit encouragement or applaud towards terrorism, formed crime scenes or hate association groups on our application/website. Attempting to sell sexual services or weapons and harmful drugs are also not permitted. We will remove reasonable threats of severity, hate arousing content/speech and the intentionally pointing of private individuals. We do not permit attacks/abuse based on skin colour, native, sex, gender, gender identity, sexual orientation, religion, disability or disease.
+    \n
+    \nGraphic violence is not allowed and we may remove videos or images of intense, graphic violence to make sure our application/website stays appropriate for everyone.
+    \n
+    \nIf anyone or any account is spotted doing the above restricted activities they can be booked and arrested for the same. If viewers spot any violations of the above rules they have the right to report the content to us by using the report feature given in our application/ website.
+        </string>
+    <string name="pp_p"><u>Privacy Policy</u></string>
+    <string name="tmc"><u>Terms &amp; Conditions</u></string>
+    <string name="t_o_u">The application is notifying you to the presence of an app that provides several services that are essential information for safer and more efficient use.</string>
+    <string name="permissions_txt"><font color="#FFFFFF" size="16">External Storage</font><font color="#80ffffff" size="14">\nAllow to access photos and media\non your device.</font></string>
+    <string name="ob_battery_txt"><font color="#FFFFFF" size="32">82</font><font color="#FFFFFF" size="14">%</font>\n<font color="#96FFFFFF" size="14">Available : 21h</font></string>
+    <string name="battery">Battery</string>
+    <string name="home">Home</string>
+    <string name="animation">Animation</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save">Save</string>
+    <string name="apply">Apply</string>
+    <string name="add_to_fav">Add to Favorites</string>
+    <string name="your_downloads"><font color="#FFFFFF" size="16">Your downloads</font>\n\n<font color="#CCFFFFFF" size="12">Discover battery charging themes and animation screens. Mobile charging animation theme is the best battery charging animation.</font></string>
+    <string name="notify_me_to_stop_charging_when_the_battery_nreaches_80">Notify me to stop charging, when the battery \nreaches </string>
+    <string name="downloads">Downloads</string>
+    <string name="battery_animation">Battery Animation</string>
+
+</resources>

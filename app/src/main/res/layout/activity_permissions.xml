@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.PermissionsActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:gravity="center"
+        android:text="Required Permission"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/adsView0"
+        android:layout_below="@id/title">
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.adsmodule.api.AdsModule.Interfaces.CustomView
+                android:id="@+id/adsView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                app:cardElevation="0dp"
+                app:adType="1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_below="@id/adsView"
+                    android:gravity="center"
+                    android:background="@drawable/permissionbg"
+                    android:layout_margin="20dp"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/permission_icon"
+                        android:drawablePadding="8dp"
+                        android:lineSpacingExtra="2dp"
+                        android:text="@string/permissions_txt" />
+
+                    <ImageView
+                        android:id="@+id/p_checker"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/unchecked" />
+
+                </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/agreebtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="80dp"
+                android:layout_marginVertical="30dp"
+                android:background="@drawable/btnbg"
+                android:gravity="center"
+                android:text="Grant Permission"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.adsmodule.api.AdsModule.Interfaces.CustomView
+        android:id="@+id/adsView0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:cardElevation="0dp"
+        app:adType="2" />
+
+
+</RelativeLayout>

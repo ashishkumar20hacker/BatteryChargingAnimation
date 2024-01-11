@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomView">
+        <attr name="adType" format="string" />
+        <attr name="placeholder" format="reference" />
+        <attr name="borderColor" format="color" />
+    </declare-styleable>
+</resources>
