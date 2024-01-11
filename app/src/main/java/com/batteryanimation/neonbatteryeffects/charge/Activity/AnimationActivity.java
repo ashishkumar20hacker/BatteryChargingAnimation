@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.adsmodule.api.AdsModule.AdUtils;
 import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
+import com.adsmodule.api.AdsModule.Retrofit.AdsResponseModel;
 import com.adsmodule.api.AdsModule.Utils.Constants;
 import com.batteryanimation.neonbatteryeffects.charge.Adapter.AnimationAdapter;
 import com.batteryanimation.neonbatteryeffects.charge.Adapter.WallpaperAdapter;
@@ -41,11 +42,11 @@ public class AnimationActivity extends AppCompatActivity {
     ActivityAnimationBinding binding;
     ArrayList<Wallpaper> newList;
     AnimationAdapter newAdapter;
-    List<LockThemeModel> lockThemeModelArrayList;
+    List<Wallpaper> lockThemeModelArrayList;
     WallpaperAdapter adapter;
     String load = "Animation";
 
-    public static List<LockThemeModel> readThemeJsonFromRaw(Context context) {
+   /* public static List<LockThemeModel> readThemeJsonFromRaw(Context context) {
         List<LockThemeModel> lockThemeModels = new ArrayList<>();
         List<LockThemeModel> lockThemeModels2 = new ArrayList<>();
 
@@ -77,7 +78,7 @@ public class AnimationActivity extends AppCompatActivity {
 
         return lockThemeModels;
     }
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,9 +126,26 @@ public class AnimationActivity extends AppCompatActivity {
     private void setWallpapers() {
 
         lockThemeModelArrayList = new ArrayList<>();
-        lockThemeModelArrayList = readThemeJsonFromRaw(getApplicationContext());
+//        lockThemeModelArrayList = readThemeJsonFromRaw(getApplicationContext());
         adapter = new WallpaperAdapter(getApplicationContext(), lockThemeModelArrayList, 0);
         binding.newRecycler.setAdapter(adapter);
+        try {
+            InputStream inputStream = getAssets().open("category.json");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            String jsonConfig = new String(buffer, StandardCharsets.UTF_8);
+
+            JSONObject jsonObject = new JSONObject(jsonConfig);
+            JSONObject categoriesObject = jsonObject.getJSONObject("Categories");
+
+            processCategory(categoriesObject, "Wallpaper", (ArrayList<Wallpaper>) lockThemeModelArrayList);
+
+            adapter.notifyDataSetChanged();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setAnimation() {

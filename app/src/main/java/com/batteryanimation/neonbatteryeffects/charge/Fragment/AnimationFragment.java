@@ -27,15 +27,19 @@ import com.batteryanimation.neonbatteryeffects.charge.Activity.AnimationPreviewA
 import com.batteryanimation.neonbatteryeffects.charge.Activity.DashboardActivity;
 import com.batteryanimation.neonbatteryeffects.charge.Adapter.WallpaperAdapter;
 import com.batteryanimation.neonbatteryeffects.charge.Model.LockThemeModel;
+import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.SetWallPaperListener;
 import com.batteryanimation.neonbatteryeffects.charge.databinding.FragmentAnimationBinding;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -46,7 +50,7 @@ public class AnimationFragment extends Fragment {
 //    TextView batteryBtm, homeBtm, animationBtm;
 //    Activity activity;
 
-    List<LockThemeModel> lockThemeModelArrayList;
+    List<Wallpaper> lockThemeModelArrayList;
 
     WallpaperAdapter adapter;
    /* public AnimationFragment(DashboardActivity dashboardActivity) {
@@ -113,73 +117,39 @@ public class AnimationFragment extends Fragment {
         });
 
         lockThemeModelArrayList = new ArrayList<>();
-        lockThemeModelArrayList =readThemeJsonFromRaw(requireActivity());
+//        lockThemeModelArrayList =readThemeJsonFromRaw(requireActivity());
         adapter = new WallpaperAdapter(requireActivity(), lockThemeModelArrayList, 8);
         binding.wallpaperRecycler.setAdapter(adapter);
+        try {
+            InputStream inputStream = requireActivity().getAssets().open("category.json");
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            String jsonConfig = new String(buffer, StandardCharsets.UTF_8);
 
+            JSONObject jsonObject = new JSONObject(jsonConfig);
+            JSONObject categoriesObject = jsonObject.getJSONObject("Categories");
+
+            processCategory(categoriesObject, "Wallpaper", (ArrayList<Wallpaper>) lockThemeModelArrayList);
+
+            adapter.notifyDataSetChanged();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
         return binding.getRoot();
     }
-/*
-    public static List<LockThemeModel> readThemeJsonFromRaw(Context context) {
-        List<LockThemeModel> lockThemeModels = new ArrayList<>();
-
-        try {
-            Resources resources = context.getResources();
-            InputStream inputStream = resources.openRawResource(R.raw.themes);
-            Scanner scanner = new Scanner(inputStream);
-
-            StringBuilder stringBuilder = new StringBuilder();
-            while (scanner.hasNextLine()) {
-                stringBuilder.append(scanner.nextLine());
+    private void processCategory(JSONObject categoriesObject, String categoryName, ArrayList<Wallpaper> categoryList) throws JSONException {
+        if (categoriesObject.has(categoryName)) {
+            JSONObject categoryObject = categoriesObject.getJSONObject(categoryName);
+            JSONArray urlsArray = categoryObject.getJSONArray("urls");
+            categoryList.clear();
+            for (int i = 0; i < urlsArray.length(); i++) {
+                String url = urlsArray.getString(i);
+                Wallpaper wallpaper = new Wallpaper();
+                wallpaper.setUrl(url);
+                categoryList.add(wallpaper);
             }
-
-            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject object = (JSONObject) jsonArray.get(i);
-                LockThemeModel model = new Gson().fromJson(object.toString(), LockThemeModel.class);
-                lockThemeModels.add(model);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
-        lockThemeModels.sort((t1, t2) -> t1.getTitle().toLowerCase().compareToIgnoreCase(t2.getTitle().toLowerCase()));
-
-        return lockThemeModels;
-    }*/
-
-    public static List<LockThemeModel> readThemeJsonFromRaw(Context context) {
-        List<LockThemeModel> lockThemeModels = new ArrayList<>();
-        List<LockThemeModel> lockThemeModels2 = new ArrayList<>();
-
-        try {
-            Resources resources = context.getResources();
-            InputStream inputStream = resources.openRawResource(R.raw.themes);
-            Scanner scanner = new Scanner(inputStream);
-
-            StringBuilder stringBuilder = new StringBuilder();
-            while (scanner.hasNextLine()) {
-                stringBuilder.append(scanner.nextLine());
-            }
-
-            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject object = (JSONObject) jsonArray.get(i);
-                LockThemeModel model = new Gson().fromJson(object.toString(), LockThemeModel.class);
-                for (LockThemeModel themeModel : model.getThemes()) {
-                    lockThemeModels.add(themeModel);
-                }
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        lockThemeModels.sort((t1, t2) -> t1.getTitle().toLowerCase().compareToIgnoreCase(t2.getTitle().toLowerCase()));
-
-        return lockThemeModels;
     }
-
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.batteryanimation.neonbatteryeffects.charge.Activity.AnimationPreviewActivity;
 import com.batteryanimation.neonbatteryeffects.charge.Activity.CategoryShowActivity;
 import com.batteryanimation.neonbatteryeffects.charge.Model.LockThemeModel;
+import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.SetWallPaperListener;
 import com.bumptech.glide.Glide;
@@ -32,9 +33,9 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.View
 
     Context context;
 
-    List<LockThemeModel> lockThemeModelArrayList;
+    List<Wallpaper> lockThemeModelArrayList;
     int i = 0;
-    public WallpaperAdapter(Context context, List<LockThemeModel> lockThemeModelArrayList, int i) {
+    public WallpaperAdapter(Context context, List<Wallpaper> lockThemeModelArrayList, int i) {
         this.context = context;
         this.lockThemeModelArrayList = lockThemeModelArrayList;
         this.i = i;
@@ -49,11 +50,11 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull WallpaperAdapter.ViewHolder holder, int position) {
-        LockThemeModel lockThemeModel = lockThemeModelArrayList.get(position);
+        Wallpaper lockThemeModel = lockThemeModelArrayList.get(position);
 
         holder.delete.setVisibility(View.GONE);
 
-        Glide.with(context).load(lockThemeModelArrayList.get(position).getImageURL()).listener(new RequestListener<Drawable>() {
+        Glide.with(context).load(lockThemeModelArrayList.get(position).getUrl()).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<Drawable> target, boolean isFirstResource) {
                 holder.progressBar.setVisibility(View.GONE);
@@ -73,7 +74,7 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.View
 //                listener.onSelect(lockThemeModel.getImageURL(), position);
 //                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
                 Intent intent = new Intent(context, CategoryShowActivity.class);
-                intent.putExtra("imageUrl", lockThemeModel.getImageURL());
+                intent.putExtra("imageUrl", lockThemeModel.getUrl());
                 intent.putExtra("position", position);
 //                intent.putStringArrayListExtra("favoritesSet", new ArrayList<>(favoritesSet));
 //                intent.putStringArrayListExtra("downloadsSet", new ArrayList<>(downloadsSet));
