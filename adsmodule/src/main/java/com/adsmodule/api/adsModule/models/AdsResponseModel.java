@@ -2,6 +2,8 @@ package com.adsmodule.api.adsModule.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 @SuppressWarnings("all")
 public class AdsResponseModel {
 
@@ -418,6 +420,36 @@ public class AdsResponseModel {
     }
 
     public static class ExtraDataFieldDTO {
+        public ArrayList<Datum> data;
+
+        public ArrayList<Datum> getData() {
+            return data;
+        }
+
+        public void setData(ArrayList<Datum> data) {
+            this.data = data;
+        }
+
+        public class Datum{
+            public String dataType;
+            public ArrayList<String> urls;
+
+            public String getDataType() {
+                return dataType;
+            }
+
+            public void setDataType(String dataType) {
+                this.dataType = dataType;
+            }
+
+            public ArrayList<String> getUrls() {
+                return urls;
+            }
+
+            public void setUrls(ArrayList<String> urls) {
+                this.urls = urls;
+            }
+        }
     }
 
     private class MobileStickyAdsDTO {

@@ -23,6 +23,7 @@ import com.batteryanimation.neonbatteryeffects.charge.Model.LockThemeModel;
 import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.SetWallPaperListener;
+import com.batteryanimation.neonbatteryeffects.charge.Utils;
 import com.batteryanimation.neonbatteryeffects.charge.databinding.ActivityAnimationBinding;
 import com.google.gson.Gson;
 
@@ -122,51 +123,17 @@ public class AnimationActivity extends AppCompatActivity {
 
     private void setWallpapers() {
 
-        lockThemeModelArrayList = new ArrayList<>();
-//        lockThemeModelArrayList = readThemeJsonFromRaw(getApplicationContext());
+        lockThemeModelArrayList = Utils.getWallpapers();
         adapter = new WallpaperGridAdapter(getApplicationContext(), lockThemeModelArrayList, 0);
         binding.newRecycler.setAdapter(adapter);
-        try {
-            InputStream inputStream = getAssets().open("category.json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            String jsonConfig = new String(buffer, StandardCharsets.UTF_8);
-
-            JSONObject jsonObject = new JSONObject(jsonConfig);
-            JSONObject categoriesObject = jsonObject.getJSONObject("Categories");
-
-            processCategory(categoriesObject, "Wallpaper", (ArrayList<Wallpaper>) lockThemeModelArrayList);
-
-            adapter.notifyDataSetChanged();
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void setAnimation() {
 
-        newList = new ArrayList<>();
+        newList = Utils.getChargingAnimations();
         newAdapter = new AnimationGridAdapter(getApplicationContext(), (ArrayList<Wallpaper>) newList, 0);
         binding.newRecycler.setAdapter(newAdapter);
-        try {
-            InputStream inputStream = getAssets().open("category.json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            String jsonConfig = new String(buffer, StandardCharsets.UTF_8);
 
-            JSONObject jsonObject = new JSONObject(jsonConfig);
-            JSONObject categoriesObject = jsonObject.getJSONObject("Categories");
-
-            processCategory(categoriesObject, "New", (ArrayList<Wallpaper>) newList);
-
-            newAdapter.notifyDataSetChanged();
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void processCategory(JSONObject categoriesObject, String categoryName, ArrayList<Wallpaper> categoryList) throws JSONException {

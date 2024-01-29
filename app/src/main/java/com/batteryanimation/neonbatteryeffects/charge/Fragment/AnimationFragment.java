@@ -28,6 +28,7 @@ import com.batteryanimation.neonbatteryeffects.charge.Model.LockThemeModel;
 import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.SetWallPaperListener;
+import com.batteryanimation.neonbatteryeffects.charge.Utils;
 import com.batteryanimation.neonbatteryeffects.charge.databinding.FragmentAnimationBinding;
 import com.google.gson.Gson;
 
@@ -87,8 +88,8 @@ public class AnimationFragment extends Fragment {
         binding.backbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showBackPressAd(activity, isLoaded ->  {
-                        requireActivity().getSupportFragmentManager().popBackStack();
+                AdUtils.showBackPressAd(activity, isLoaded -> {
+                    requireActivity().getSupportFragmentManager().popBackStack();
                 });
             }
         });
@@ -103,7 +104,7 @@ public class AnimationFragment extends Fragment {
             }
         });
 
-       binding.arrow.setOnClickListener(new View.OnClickListener() {
+        binding.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AdUtils.showInterstitialAd(activity, isLoaded -> {
@@ -111,30 +112,13 @@ public class AnimationFragment extends Fragment {
                 });
             }
         });
-
-        lockThemeModelArrayList = new ArrayList<>();
-//        lockThemeModelArrayList =readThemeJsonFromRaw(requireActivity());
+        lockThemeModelArrayList = Utils.getWallpapers();
         adapter = new WallpaperAdapter(requireActivity(), lockThemeModelArrayList, 8);
         binding.wallpaperRecycler.setAdapter(adapter);
-        try {
-            InputStream inputStream = requireActivity().getAssets().open("category.json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            String jsonConfig = new String(buffer, StandardCharsets.UTF_8);
 
-            JSONObject jsonObject = new JSONObject(jsonConfig);
-            JSONObject categoriesObject = jsonObject.getJSONObject("Categories");
-
-            processCategory(categoriesObject, "Wallpaper", (ArrayList<Wallpaper>) lockThemeModelArrayList);
-
-            adapter.notifyDataSetChanged();
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
         return binding.getRoot();
     }
+
     private void processCategory(JSONObject categoriesObject, String categoryName, ArrayList<Wallpaper> categoryList) throws JSONException {
         if (categoriesObject.has(categoryName)) {
             JSONObject categoryObject = categoriesObject.getJSONObject(categoryName);

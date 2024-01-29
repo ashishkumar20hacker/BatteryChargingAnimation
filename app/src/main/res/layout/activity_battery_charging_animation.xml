@@ -85,6 +85,17 @@
                 android:fontFamily="@font/poppins"
                 android:textSize="30dp" />
 
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/small_anim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:adjustViewBounds="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/_50sdp"
+                android:maxHeight="@dimen/_150sdp"
+                android:maxWidth="@dimen/_150sdp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

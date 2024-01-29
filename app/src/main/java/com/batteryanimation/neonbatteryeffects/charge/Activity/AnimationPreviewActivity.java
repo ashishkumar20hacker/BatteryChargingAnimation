@@ -95,10 +95,18 @@ public class AnimationPreviewActivity extends AppCompatActivity {
             binding.addToFavorites.setVisibility(View.GONE);
             binding.saveBtn.setVisibility(View.GONE);
         }
-        Glide.with(AnimationPreviewActivity.this)
-                .asGif()
-                .load(imageUrl)
-                .into(binding.ivPreview);
+
+        if (imageUrl.contains("idecloudstoragepanel")) {
+            Glide.with(AnimationPreviewActivity.this)
+                    .asGif()
+                    .load(imageUrl)
+                    .into(binding.smallAnim);
+        } else {
+            Glide.with(AnimationPreviewActivity.this)
+                    .asGif()
+                    .load(imageUrl)
+                    .into(binding.ivPreview);
+        }
 
         binding.applyBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -315,7 +323,7 @@ public class AnimationPreviewActivity extends AppCompatActivity {
                     ContentResolver contentResolver = context.getContentResolver();
                     contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
-                    Toast.makeText(context, "Image saved to " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Image saved " /*+ file.getAbsolutePath()*/, Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {

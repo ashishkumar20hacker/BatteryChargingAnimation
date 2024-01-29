@@ -8,14 +8,20 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.adsmodule.api.adsModule.models.AdsResponseModel;
+import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.google.android.gms.tasks.Task;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
 
@@ -103,5 +109,69 @@ public class Utils {
             winParams.flags &= ~bits;
         }
         win.setAttributes(winParams);
+    }
+
+    public static ArrayList<Wallpaper> getWallpapers() {
+        ArrayList<Wallpaper> list = new ArrayList<>();
+
+        if (com.adsmodule.api.adsModule.utils.Constants.adsResponseModel != null && com.adsmodule.api.adsModule.utils.Constants.adsResponseModel.getExtra_data_field() != null) {
+            AdsResponseModel.ExtraDataFieldDTO extraDataFieldDTO = com.adsmodule.api.adsModule.utils.Constants.adsResponseModel.getExtra_data_field();
+
+
+            if (extraDataFieldDTO.getData() != null) {
+                List<AdsResponseModel.ExtraDataFieldDTO.Datum> categories = extraDataFieldDTO.getData();
+
+                for (AdsResponseModel.ExtraDataFieldDTO.Datum myCategory : categories) {
+                    Log.d("Festival Name", myCategory.getDataType());
+                    Log.d("Image", myCategory.getUrls().get(0));
+
+                    if (myCategory.getUrls() != null && myCategory.getDataType().equals("Wallpaper")) {
+                        for (String url : myCategory.getUrls()){
+                            list.add(new Wallpaper(url));
+                        }
+                    } else {
+                        Log.d("Error", "MyCategory data is null");
+                    }
+                }
+            } else {
+                Log.d("Error", "Categories is null");
+            }
+        } else {
+            Log.d("Error", "Constants.adsResponseModel or ExtraDataFieldDTO is null");
+        }
+
+        return list;
+    }
+    public static ArrayList<Wallpaper> getChargingAnimations() {
+        ArrayList<Wallpaper> list = new ArrayList<>();
+
+        if (com.adsmodule.api.adsModule.utils.Constants.adsResponseModel != null && com.adsmodule.api.adsModule.utils.Constants.adsResponseModel.getExtra_data_field() != null) {
+            AdsResponseModel.ExtraDataFieldDTO extraDataFieldDTO = com.adsmodule.api.adsModule.utils.Constants.adsResponseModel.getExtra_data_field();
+
+
+            if (extraDataFieldDTO.getData() != null) {
+                List<AdsResponseModel.ExtraDataFieldDTO.Datum> categories = extraDataFieldDTO.getData();
+
+                for (AdsResponseModel.ExtraDataFieldDTO.Datum myCategory : categories) {
+                    Log.d("Festival Name", myCategory.getDataType());
+                    Log.d("Image", myCategory.getUrls().get(0));
+
+                    if (myCategory.getUrls() != null && myCategory.getDataType().equals("Charging")) {
+//                        list = myCategory.getUrls();
+                        for (String url : myCategory.getUrls()){
+                            list.add(new Wallpaper(url));
+                        }
+                    } else {
+                        Log.d("Error", "MyCategory data is null");
+                    }
+                }
+            } else {
+                Log.d("Error", "Categories is null");
+            }
+        } else {
+            Log.d("Error", "Constants.adsResponseModel or ExtraDataFieldDTO is null");
+        }
+
+        return list;
     }
 }

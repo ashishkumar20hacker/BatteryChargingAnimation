@@ -83,13 +83,13 @@ public class PermissionsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (agreebtn.getText().equals("Next")) {
 
-                    AdUtils.showInterstitialAd(activity, isLoaded -> {
+//                    AdUtils.showInterstitialAd(activity, isLoaded -> {
                             startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                             Intent local = new Intent();
                             local.setAction("string.activity");
                             sendBroadcast(local);
 
-                    });
+//                    });
 
                 } else {
                     mCheckPermission();

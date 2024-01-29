@@ -36,6 +36,7 @@ import com.batteryanimation.neonbatteryeffects.charge.Adapter.AnimationAdapter;
 import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.Service.BatteryService;
+import com.batteryanimation.neonbatteryeffects.charge.Utils;
 import com.batteryanimation.neonbatteryeffects.charge.databinding.FragmentHomeBinding;
 import com.batteryanimation.neonbatteryeffects.charge.databinding.ShowDialogBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -64,7 +65,7 @@ public class HomeFragment extends Fragment {
     };
     ArrayList<Wallpaper> newList;
     AnimationAdapter newAdapter;
-//    TextView batteryBtm, homeBtm, animationBtm;
+    //    TextView batteryBtm, homeBtm, animationBtm;
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
     Activity activity;
@@ -154,7 +155,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 AdUtils.showInterstitialAd(activity, isLoaded -> {
 
-                        bottomNavigationView.setSelectedItemId(R.id.battery_btm_nav);
+                    bottomNavigationView.setSelectedItemId(R.id.battery_btm_nav);
 //                        batteryBtm.setBackgroundResource(R.drawable.blur);
 //                        batteryBtm.setTextColor(getResources().getColor(R.color.white));
 //                        batteryBtm.getCompoundDrawables()[1].setTint(getResources().getColor(R.color.white));
@@ -187,7 +188,7 @@ public class HomeFragment extends Fragment {
                         batteryBtm.getCompoundDrawables()[1].setTint(getResources().getColor(R.color.grey));
                         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new AnimationFragment((DashboardActivity) activity)).addToBackStack(null).commit();*/
 
-                        startActivity(new Intent(requireActivity(), AnimationActivity.class).putExtra("load", "Animation"));
+                    startActivity(new Intent(requireActivity(), AnimationActivity.class).putExtra("load", "Animation"));
 
                 });
             }
@@ -197,33 +198,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AdUtils.showInterstitialAd(activity, isLoaded -> {
-                        startActivity(new Intent(requireActivity(), DownloadsActivity.class));
+                    startActivity(new Intent(requireActivity(), DownloadsActivity.class));
                 });
 
             }
         });
 
-        newList = new ArrayList<>();
+        newList = Utils.getChargingAnimations();
         newAdapter = new AnimationAdapter(getActivity(), (ArrayList<Wallpaper>) newList, 8);
         binding.newRecycler.setAdapter(newAdapter);
-        try {
-            InputStream inputStream = requireActivity().getAssets().open("category.json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            String jsonConfig = new String(buffer, StandardCharsets.UTF_8);
 
-            JSONObject jsonObject = new JSONObject(jsonConfig);
-            JSONObject categoriesObject = jsonObject.getJSONObject("Categories");
-
-            processCategory(categoriesObject, "New", (ArrayList<Wallpaper>) newList);
-
-
-            newAdapter.notifyDataSetChanged();
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
         if (isMyServiceRunning(BatteryService.class, requireActivity())) {
         } else {
             Intent intent = new Intent(requireActivity(), BatteryService.class);

@@ -36,7 +36,7 @@ public class BatteryChargingAnimationActivity extends AppCompatActivity {
     CountDownTimer countDownTimer;
     String[] dateFormats = {"EEEE, MMMM dd, yyyy", "EEE, MMMM dd, yyyy", "EEEE, dd MMMM", "dd MMMM yyyy"};
     LinearLayout digitalView;
-    GifImageView ivPreview;
+    GifImageView ivPreview, smallAnim;
     RelativeLayout preview;
     PowerDis receiver;
     SharedPreferencesUtil sharedPreferencesUtil;
@@ -67,6 +67,7 @@ public class BatteryChargingAnimationActivity extends AppCompatActivity {
         this.sharedPreferencesUtil = new SharedPreferencesUtil(this);
         registerReceiver(this.mBatInfoReceiver, new IntentFilter("android.intent.action.BATTERY_CHANGED"));
         this.ivPreview = (GifImageView) findViewById(R.id.ivPreview);
+        this.smallAnim = (GifImageView) findViewById(R.id.small_anim);
         this.preview = (RelativeLayout) findViewById(R.id.preview);
         this.tvBatteryPerCenter = (TextView) findViewById(R.id.tvBatteryPerCenter);
         this.tvTime = (TextView) findViewById(R.id.tvTime);
@@ -94,10 +95,17 @@ public class BatteryChargingAnimationActivity extends AppCompatActivity {
         SharedPreferences otherPreferences = getSharedPreferences("MyOtherChargePreferences", Context.MODE_PRIVATE);
         String imageUrlChargeOther = otherPreferences.getString("imageUrlChargeOther", "");
 
-        Glide.with(BatteryChargingAnimationActivity.this)
-                .asGif()
-                .load(imageUrlChargeOther)
-                .into(ivPreview);
+        if (imageUrlChargeOther.contains("idecloudstoragepanel")) {
+            Glide.with(BatteryChargingAnimationActivity.this)
+                    .asGif()
+                    .load(imageUrlChargeOther)
+                    .into(smallAnim);
+        } else {
+            Glide.with(BatteryChargingAnimationActivity.this)
+                    .asGif()
+                    .load(imageUrlChargeOther)
+                    .into(ivPreview);
+        }
         this.preview.setOnClickListener(new DoubleClickListener() {
             public void onSingleClick(View view) {
             }
