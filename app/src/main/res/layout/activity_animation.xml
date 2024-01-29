@@ -47,12 +47,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <com.adsmodule.api.AdsModule.Interfaces.CustomView
+        <com.adsmodule.api.adsModule.views.NativeView
             android:id="@+id/adsView0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:adType="2"
+            app:adType="MEDIUM"
             app:cardElevation="0dp" />
 
     </LinearLayout>

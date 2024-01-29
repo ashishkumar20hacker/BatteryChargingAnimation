@@ -23,6 +23,7 @@ import com.batteryanimation.neonbatteryeffects.charge.AnalogClock;
 import com.batteryanimation.neonbatteryeffects.charge.OnItemClickListener.DoubleClickListener;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.SharedPreferencesUtil;
+import com.batteryanimation.neonbatteryeffects.charge.Utils;
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
@@ -54,9 +55,7 @@ public class BatteryChargingAnimationActivity extends AppCompatActivity {
 
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        requestWindowFeature(1);
-        getWindow().setFlags(1024, 1024);
-        getWindow().getDecorView().setSystemUiVisibility(InputDeviceCompat.SOURCE_TOUCHSCREEN);
+        Utils.makeStatusBarTransparent2(this);
         if (Build.VERSION.SDK_INT >= 27) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);

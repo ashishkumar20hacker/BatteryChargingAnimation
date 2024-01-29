@@ -1,6 +1,6 @@
 package com.batteryanimation.neonbatteryeffects.charge.Fragment;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.Activity.DashboardActivity;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.databinding.FragmentBatteryBinding;
@@ -59,11 +57,8 @@ public class BatteryFragment extends Fragment {
         binding.backbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-                    @Override
-                    public void appOpenAdState(boolean state_load) {
+                AdUtils.showBackPressAd(activity, isLoaded -> {
                         requireActivity().getSupportFragmentManager().popBackStack();
-                    }
                 });
             }
         });

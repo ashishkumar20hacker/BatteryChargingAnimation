@@ -44,12 +44,13 @@
             android:src="@drawable/stars" />
 
 
-        <com.adsmodule.api.AdsModule.Interfaces.CustomView
+        <com.adsmodule.api.adsModule.views.NativeView
             android:id="@+id/adsView0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
-            app:adType="1" />
+            android:layout_margin="@dimen/_3sdp"
+            app:adType="SMALL" />
 
         <TextView
             android:layout_width="match_parent"

@@ -106,12 +106,12 @@
 
     </LinearLayout>
 
-    <com.adsmodule.api.AdsModule.Interfaces.CustomView
+    <com.adsmodule.api.adsModule.views.NativeView
         android:id="@+id/adsView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:cardElevation="0dp"
         android:layout_marginBottom="@dimen/_40sdp"
-        app:adType="0" />
+        app:adType="MEDIUM" />
 </RelativeLayout>

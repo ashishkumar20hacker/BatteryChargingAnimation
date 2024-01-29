@@ -29,18 +29,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.adsmodule.api.AdsModule.Interfaces.CustomView
+            <com.adsmodule.api.adsModule.views.NativeView
                 android:id="@+id/adsView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 app:cardElevation="0dp"
-                app:adType="1" />
+                app:borderColor="#0A99A4"
+                app:adType="FULL" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:layout_below="@id/adsView"
                     android:gravity="center"
                     android:background="@drawable/permissionbg"
                     android:layout_margin="20dp"
@@ -83,13 +83,13 @@
 
     </ScrollView>
 
-    <com.adsmodule.api.AdsModule.Interfaces.CustomView
+    <com.adsmodule.api.adsModule.views.NativeView
         android:id="@+id/adsView0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:cardElevation="0dp"
-        app:adType="2" />
+        app:adType="SMALL" />
 
 
 </RelativeLayout>

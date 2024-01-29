@@ -139,10 +139,13 @@ public class BatteryService extends Service {
             Log.d("tagCheck", "onReceive: " +intent.getAction());
             if (intent.getAction().equals("android.intent.action.ACTION_POWER_CONNECTED")) {
                 Log.d( "tagCheck","Check ");
-                Intent intent2 = new Intent(context, BatteryChargingAnimationActivity.class);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent2);
+                SharePreferences preferences = new SharePreferences(context);
+                if (preferences.getBoolean(Constants.isAnimationSet)) {
+                    Intent intent2 = new Intent(context, BatteryChargingAnimationActivity.class);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent2);
+                }
                 return;
             }
             intent.getAction().equals("android.intent.action.ACTION_POWER_DISCONNECTED");

@@ -1,6 +1,7 @@
 package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +14,11 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Retrofit.AdsResponseModel;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.Adapter.AnimationAdapter;
+import com.batteryanimation.neonbatteryeffects.charge.Adapter.AnimationGridAdapter;
 import com.batteryanimation.neonbatteryeffects.charge.Adapter.WallpaperAdapter;
+import com.batteryanimation.neonbatteryeffects.charge.Adapter.WallpaperGridAdapter;
 import com.batteryanimation.neonbatteryeffects.charge.Model.LockThemeModel;
 import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.batteryanimation.neonbatteryeffects.charge.R;
@@ -41,44 +41,44 @@ public class AnimationActivity extends AppCompatActivity {
 
     ActivityAnimationBinding binding;
     ArrayList<Wallpaper> newList;
-    AnimationAdapter newAdapter;
+    AnimationGridAdapter newAdapter;
     List<Wallpaper> lockThemeModelArrayList;
-    WallpaperAdapter adapter;
+    WallpaperGridAdapter adapter;
     String load = "Animation";
 
-   /* public static List<LockThemeModel> readThemeJsonFromRaw(Context context) {
-        List<LockThemeModel> lockThemeModels = new ArrayList<>();
-        List<LockThemeModel> lockThemeModels2 = new ArrayList<>();
+    /* public static List<LockThemeModel> readThemeJsonFromRaw(Context context) {
+         List<LockThemeModel> lockThemeModels = new ArrayList<>();
+         List<LockThemeModel> lockThemeModels2 = new ArrayList<>();
 
-        try {
-            Resources resources = context.getResources();
-            InputStream inputStream = resources.openRawResource(R.raw.themes);
-            Scanner scanner = new Scanner(inputStream);
+         try {
+             Resources resources = context.getResources();
+             InputStream inputStream = resources.openRawResource(R.raw.themes);
+             Scanner scanner = new Scanner(inputStream);
 
-            StringBuilder stringBuilder = new StringBuilder();
-            while (scanner.hasNextLine()) {
-                stringBuilder.append(scanner.nextLine());
-            }
+             StringBuilder stringBuilder = new StringBuilder();
+             while (scanner.hasNextLine()) {
+                 stringBuilder.append(scanner.nextLine());
+             }
 
-            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject object = (JSONObject) jsonArray.get(i);
-                LockThemeModel model = new Gson().fromJson(object.toString(), LockThemeModel.class);
-                for (LockThemeModel themeModel : model.getThemes()) {
-                    lockThemeModels.add(themeModel);
-                }
+             JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+             for (int i = 0; i < jsonArray.length(); i++) {
+                 JSONObject object = (JSONObject) jsonArray.get(i);
+                 LockThemeModel model = new Gson().fromJson(object.toString(), LockThemeModel.class);
+                 for (LockThemeModel themeModel : model.getThemes()) {
+                     lockThemeModels.add(themeModel);
+                 }
 
-            }
+             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
 
-        lockThemeModels.sort((t1, t2) -> t1.getTitle().toLowerCase().compareToIgnoreCase(t2.getTitle().toLowerCase()));
+         lockThemeModels.sort((t1, t2) -> t1.getTitle().toLowerCase().compareToIgnoreCase(t2.getTitle().toLowerCase()));
 
-        return lockThemeModels;
-    }
-*/
+         return lockThemeModels;
+     }
+ */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,12 +114,9 @@ public class AnimationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-            @Override
-            public void appOpenAdState(boolean state_load) {
-                /*AnimationActivity.super.onBackPressed();*/
-                startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
-            }
+        AdUtils.showBackPressAd(activity, isLoaded -> {
+            /*AnimationActivity.super.onBackPressed();*/
+            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         });
     }
 
@@ -127,7 +124,7 @@ public class AnimationActivity extends AppCompatActivity {
 
         lockThemeModelArrayList = new ArrayList<>();
 //        lockThemeModelArrayList = readThemeJsonFromRaw(getApplicationContext());
-        adapter = new WallpaperAdapter(getApplicationContext(), lockThemeModelArrayList, 0);
+        adapter = new WallpaperGridAdapter(getApplicationContext(), lockThemeModelArrayList, 0);
         binding.newRecycler.setAdapter(adapter);
         try {
             InputStream inputStream = getAssets().open("category.json");
@@ -151,7 +148,7 @@ public class AnimationActivity extends AppCompatActivity {
     private void setAnimation() {
 
         newList = new ArrayList<>();
-        newAdapter = new AnimationAdapter(getApplicationContext(), (ArrayList<Wallpaper>) newList, 0);
+        newAdapter = new AnimationGridAdapter(getApplicationContext(), (ArrayList<Wallpaper>) newList, 0);
         binding.newRecycler.setAdapter(newAdapter);
         try {
             InputStream inputStream = getAssets().open("category.json");

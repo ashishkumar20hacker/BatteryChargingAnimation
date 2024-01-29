@@ -1,6 +1,6 @@
 package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,11 +29,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.BuildConfig;
 import com.batteryanimation.neonbatteryeffects.charge.R;
+import com.batteryanimation.neonbatteryeffects.charge.SharePreferences;
 import com.batteryanimation.neonbatteryeffects.charge.SharedPreferencesUtil;
 import com.batteryanimation.neonbatteryeffects.charge.databinding.ActivityAnimationPreviewBinding;
 import com.bumptech.glide.Glide;
@@ -68,6 +67,8 @@ public class AnimationPreviewActivity extends AppCompatActivity {
     private Set<String> favoritesSet, downloadset;
     private SharedPreferences sharedPreferences, sharedPreferences1;
 
+    SharePreferences sharePreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,8 +84,17 @@ public class AnimationPreviewActivity extends AppCompatActivity {
         downloadset = sharedPreferences1.getStringSet(DOWNLOADS_PREF_NAME_LIVE_CHARGE, new HashSet<>());
         imageUrl = getIntent().getStringExtra("imageUrlCharge");
 
+        sharePreferences = new SharePreferences(this);
+
         load = getIntent().getStringExtra("load");
 
+        if (getIntent().getBooleanExtra("show", true)) {
+            binding.addToFavorites.setVisibility(View.VISIBLE);
+            binding.saveBtn.setVisibility(View.VISIBLE);
+        } else {
+            binding.addToFavorites.setVisibility(View.GONE);
+            binding.saveBtn.setVisibility(View.GONE);
+        }
         Glide.with(AnimationPreviewActivity.this)
                 .asGif()
                 .load(imageUrl)
@@ -94,7 +104,7 @@ public class AnimationPreviewActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (load.equals("Animation")) {
-                    AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                    AdUtils.showInterstitialAd(activity, isLoaded -> {
                         setAnimation();
                     });
                 } else {
@@ -107,7 +117,7 @@ public class AnimationPreviewActivity extends AppCompatActivity {
         binding.addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                     if (favoritesSet.contains(imageUrl)) {
                         favoritesSet.remove(imageUrl);
                         binding.addToFavorites.getCompoundDrawables()[1].setTint(getResources().getColor(R.color.white));
@@ -132,7 +142,7 @@ public class AnimationPreviewActivity extends AppCompatActivity {
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                     if (downloadset.contains(imageUrl)) {
                         downloadset.remove(imageUrl);
                         binding.saveBtn.getCompoundDrawables()[1].setTint(getResources().getColor(R.color.white));
@@ -178,19 +188,17 @@ public class AnimationPreviewActivity extends AppCompatActivity {
         editor.putString("imageUrlChargeOther", AnimationPreviewActivity.this.imageUrl);
         editor.apply();
         Toast.makeText(AnimationPreviewActivity.this, "Applied Successfully!!", Toast.LENGTH_SHORT).show();
+        sharePreferences.putBoolean(com.batteryanimation.neonbatteryeffects.charge.Constants.isAnimationSet, true);
         AnimationPreviewActivity.this.finish();
     }
 
     @Override
     public void onBackPressed() {
-        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-            @Override
-            public void appOpenAdState(boolean state_load) {
-                Intent resultIntent = new Intent();
-                setResult(Activity.RESULT_OK, resultIntent);
-                finish();
+        AdUtils.showBackPressAd(activity, isLoaded -> {
+            Intent resultIntent = new Intent();
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
 //                AnimationPreviewActivity.super.onBackPressed();
-            }
         });
 
     }
@@ -414,7 +422,7 @@ public class AnimationPreviewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-           finish();
+            finish();
         }
     }
 

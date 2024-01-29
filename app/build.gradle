@@ -7,7 +7,7 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\admin\\Downloads\\jks folder\\battery_charging_animation.jks')
+            storeFile file('D:\\Projects\\BatteryChargingAnimation\\battery_charging_animation.jks')
             storePassword '123456'
             keyAlias 'key0'
             keyPassword '123456'
@@ -20,8 +20,8 @@ android {
         applicationId "com.batteryanimation.neonbatteryeffects.charge"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         setProperty("archivesBaseName", "BATTERY_CHARGING_ANIMATION_" + versionCode + "(" + versionName + ")")
         signingConfig signingConfigs.release
 
@@ -92,6 +92,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
     implementation 'androidx.work:work-runtime:2.8.1'
+    implementation 'com.flurry.android:analytics:14.4.0'
 
 
 

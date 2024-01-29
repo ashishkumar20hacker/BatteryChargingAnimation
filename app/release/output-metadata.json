@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 1,
-      "versionName": "1.0",
-      "outputFile": "BATTERY_CHARGING_ANIMATION_1.0.apk"
+      "versionCode": 3,
+      "versionName": "1.2",
+      "outputFile": "BATTERY_CHARGING_ANIMATION_1.2.apk"
     }
   ],
   "elementType": "File"

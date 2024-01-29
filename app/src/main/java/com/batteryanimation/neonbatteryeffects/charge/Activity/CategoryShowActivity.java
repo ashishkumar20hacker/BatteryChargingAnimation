@@ -1,6 +1,6 @@
 package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -30,9 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.BuildConfig;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.SharedPreferencesUtil;
@@ -53,7 +51,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CategoryShowActivity extends AppCompatActivity {
-    ImageView imageView,back;
+    ImageView imageView, back;
     Bitmap photoBitmap;
     TextView setWallpaper, addToFavorites, saveBtn;
 
@@ -75,6 +73,7 @@ public class CategoryShowActivity extends AppCompatActivity {
         favoritesSet = sharedPreferences.getStringSet(FAVORITES_PREF_NAME_LIVE_CHARGE, new HashSet<>());
         downloadset = sharedPreferences1.getStringSet(DOWNLOADS_PREF_NAME_LIVE_CHARGE, new HashSet<>());
 
+
         Intent intent = getIntent();
 
         imageView = findViewById(R.id.ivPreview);
@@ -83,6 +82,13 @@ public class CategoryShowActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.save_btn);
 //        back = findViewById(R.id.backbt);
 
+        if (getIntent().getBooleanExtra("show", true)) {
+            addToFavorites.setVisibility(View.VISIBLE);
+            saveBtn.setVisibility(View.VISIBLE);
+        } else {
+            addToFavorites.setVisibility(View.GONE);
+            saveBtn.setVisibility(View.GONE);
+        }
 
 //        back.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -122,7 +128,7 @@ public class CategoryShowActivity extends AppCompatActivity {
         addToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                     if (favoritesSet.contains(imageUrl)) {
                         favoritesSet.remove(imageUrl);
                     } else {
@@ -145,7 +151,7 @@ public class CategoryShowActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                     if (downloadset.contains(imageUrl)) {
                         downloadset.remove(imageUrl);
                     } else {
@@ -323,13 +329,10 @@ public class CategoryShowActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-            @Override
-            public void appOpenAdState(boolean state_load) {
+        AdUtils.showBackPressAd(activity,isLoaded -> {
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
-            }
         });
 
     }

@@ -68,7 +68,7 @@
                         android:fontFamily="@font/poppins"
                         android:text="Charging Animation"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -77,7 +77,7 @@
                         android:fontFamily="@font/poppins"
                         android:text="Enjoy fun animations when you charge your device and select from a range of stylish wallpapers. Make charging exciting now!"
                         android:textColor="#CCFFFFFF"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -90,13 +90,14 @@
 
             </LinearLayout>
 
-            <com.adsmodule.api.AdsModule.Interfaces.CustomView
+            <com.adsmodule.api.adsModule.views.NativeView
                 android:id="@+id/adsView0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginHorizontal="@dimen/_5sdp"
-                app:adType="1"
+                app:adType="FULL"
+                app:borderColor="#0A99A4"
                 app:cardElevation="0dp" />
 
             <RelativeLayout

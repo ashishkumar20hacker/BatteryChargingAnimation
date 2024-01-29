@@ -51,11 +51,11 @@
             android:textColor="@color/white"/>
     </RelativeLayout>
 
-    <com.adsmodule.api.AdsModule.Interfaces.CustomView
+    <com.adsmodule.api.adsModule.views.NativeView
         android:id="@+id/adsView0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:cardElevation="0dp"
-        app:adType="0" />
+        app:adType="MEDIUM" />
 </LinearLayout>

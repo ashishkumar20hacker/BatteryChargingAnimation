@@ -2,7 +2,7 @@ package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
 import static android.os.Build.VERSION.SDK_INT;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -26,9 +26,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 
 public class PermissionsActivity extends AppCompatActivity {
@@ -84,15 +82,13 @@ public class PermissionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (agreebtn.getText().equals("Next")) {
-                    AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                        @Override
-                        public void adLoadState(boolean isLoaded) {
+
+                    AdUtils.showInterstitialAd(activity, isLoaded -> {
                             startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                             Intent local = new Intent();
                             local.setAction("string.activity");
                             sendBroadcast(local);
 
-                        }
                     });
 
                 } else {
@@ -132,11 +128,8 @@ public class PermissionsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-            @Override
-            public void appOpenAdState(boolean state_load) {
+        AdUtils.showBackPressAd(activity, isLoaded -> {
                 PermissionsActivity.super.onBackPressed();
-            }
         });
 
     }

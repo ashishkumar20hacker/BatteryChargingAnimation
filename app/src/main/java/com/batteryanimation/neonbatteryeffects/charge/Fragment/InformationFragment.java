@@ -1,5 +1,7 @@
 package com.batteryanimation.neonbatteryeffects.charge.Fragment;
 
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,8 +19,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.Constants;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.SharePreferences;
@@ -208,11 +209,8 @@ public class InformationFragment extends Fragment {
         binding.calibrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(com.adsmodule.api.AdsModule.Utils.Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         tabLayout.selectTab(secondTab);
-                    }
                 });
 
             }

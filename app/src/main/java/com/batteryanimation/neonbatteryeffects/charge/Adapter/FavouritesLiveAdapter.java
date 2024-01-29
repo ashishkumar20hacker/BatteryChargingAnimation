@@ -5,6 +5,7 @@ import static com.batteryanimation.neonbatteryeffects.charge.Activity.AnimationP
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.batteryanimation.neonbatteryeffects.charge.Activity.AnimationPreviewActivity;
+import com.batteryanimation.neonbatteryeffects.charge.Activity.CategoryShowActivity;
 import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.bumptech.glide.Glide;
@@ -75,11 +78,21 @@ public class FavouritesLiveAdapter extends RecyclerView.Adapter<FavouritesLiveAd
             @Override
             public void onClick(View view) {
 //                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, isLoaded -> {
-//                Intent intent = new Intent(context, AnimationPreviewActivity.class);
-//                intent.putExtra("imageUrlCharge", wallpaper.getUrl());
-//                intent.putExtra("position", position);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent);
+                if (wallpaper.getUrl().contains(".gif")) {
+                    Intent intent = new Intent(context, AnimationPreviewActivity.class);
+                    intent.putExtra("imageUrlCharge", wallpaper.getUrl());
+                    intent.putExtra("position", position);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("show", false);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, CategoryShowActivity.class);
+                    intent.putExtra("imageUrl", wallpaper.getUrl());
+                    intent.putExtra("position", position);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("show", false);
+                    context.startActivity(intent);
+                }
 //                });
 
             }
@@ -89,35 +102,35 @@ public class FavouritesLiveAdapter extends RecyclerView.Adapter<FavouritesLiveAd
             @Override
             public void onClick(View view) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
-                    builder.setMessage((Html.fromHtml("<font color='#FFFFFF'>Are you sure you want to delete?</font>")));
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
+                builder.setMessage((Html.fromHtml("<font color='#FFFFFF'>Are you sure you want to delete?</font>")));
 
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                                String filepath = favoriteDataList.get(position).getUrl();
-                                if (new File(filepath).delete()) {
-                                    favoriteDataList.remove(position);
-                                    if (favoritesSet.contains(filepath)) {
-                                        favoritesSet.remove(filepath);
-                                    }
-                                    notifyDataSetChanged();
-                                }
-
-                            dialog.dismiss();
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String filepath = favoriteDataList.get(position).getUrl();
+                        if (new File(filepath).delete()) {
+                            favoriteDataList.remove(position);
+                            if (favoritesSet.contains(filepath)) {
+                                favoritesSet.remove(filepath);
+                            }
+                            notifyDataSetChanged();
                         }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
 
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.setCancelable(false);
-                    alertDialog.show();
-                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(context.getResources().getColor(R.color.white));
-                    alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.white));
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.setCancelable(false);
+                alertDialog.show();
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(context.getResources().getColor(R.color.white));
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(context.getResources().getColor(R.color.white));
 
             }
         });

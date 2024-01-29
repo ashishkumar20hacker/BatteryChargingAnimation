@@ -1,6 +1,6 @@
 package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,9 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.R;
 
 public class TermsOfUse extends AppCompatActivity {
@@ -60,11 +58,9 @@ public class TermsOfUse extends AppCompatActivity {
         agreebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         startActivity(new Intent(getApplicationContext(), PermissionsActivity.class));
-                    }
                 });
             }
         });
@@ -86,11 +82,8 @@ public class TermsOfUse extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-            @Override
-            public void appOpenAdState(boolean state_load) {
+        AdUtils.showBackPressAd(activity,isLoaded ->  {
                 TermsOfUse.super.onBackPressed();
-            }
         });
     }
 }

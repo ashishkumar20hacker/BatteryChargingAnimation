@@ -1,6 +1,6 @@
 package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 import static com.batteryanimation.neonbatteryeffects.charge.Utils.showRateApp;
 
 import android.Manifest;
@@ -29,9 +29,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.Fragment.AnimationFragment;
 import com.batteryanimation.neonbatteryeffects.charge.Fragment.BatteryFragment;
 import com.batteryanimation.neonbatteryeffects.charge.Fragment.HomeFragment;
@@ -145,9 +143,7 @@ public class DashboardActivity extends AppCompatActivity {
         battery_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         binding.drawLay.closeDrawer(GravityCompat.START);
 //                        binding.batteryBtm.setBackgroundResource(R.drawable.blur);
 //                        binding.batteryBtm.setTextColor(getResources().getColor(R.color.white));
@@ -162,7 +158,6 @@ public class DashboardActivity extends AppCompatActivity {
 //                        loadFragment(new BatteryFragment(DashboardActivity.this));
 //                        loadFragment(new BatteryFragment());
                         binding.bottomNav.setSelectedItemId(R.id.battery_btm_nav);
-                    }
                 });
 
             }
@@ -171,9 +166,7 @@ public class DashboardActivity extends AppCompatActivity {
         animation_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         binding.drawLay.closeDrawer(GravityCompat.START);
 //                        binding.animationBtm.setBackgroundResource(R.drawable.blur);
 //                        binding.animationBtm.setTextColor(getResources().getColor(R.color.white));
@@ -188,7 +181,6 @@ public class DashboardActivity extends AppCompatActivity {
 //                        loadFragment(new AnimationFragment());
 //                        loadFragment(new AnimationFragment(DashboardActivity.this));
 //                        loadFragment(AnimationFragment.newInstance("animation"));
-                    }
                 });
             }
         });
@@ -196,12 +188,9 @@ public class DashboardActivity extends AppCompatActivity {
         downloads_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         binding.drawLay.closeDrawer(GravityCompat.START);
                         startActivity(new Intent(getApplicationContext(), DownloadsActivity.class));
-                    }
                 });
             }
         });
@@ -209,12 +198,9 @@ public class DashboardActivity extends AppCompatActivity {
         fav_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         binding.drawLay.closeDrawer(GravityCompat.START);
                         startActivity(new Intent(getApplicationContext(), FavouritesActivity.class));
-                    }
                 });
             }
         });
@@ -222,12 +208,9 @@ public class DashboardActivity extends AppCompatActivity {
         tu_nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         binding.drawLay.closeDrawer(GravityCompat.START);
                         startActivity(new Intent(getApplicationContext(), TermsOfUse.class).putExtra("activity", "db"));
-                    }
                 });
             }
         });
@@ -306,12 +289,9 @@ public class DashboardActivity extends AppCompatActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             exitDialog();
         } else {
-            AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-                @Override
-                public void appOpenAdState(boolean state_load) {
+            AdUtils.showBackPressAd(activity,isLoaded -> {
                     startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
                     overridePendingTransition(0, 0);
-                }
             });
         }
     }
@@ -362,9 +342,8 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void batteryBtmClick(View view) {
-        AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-            @Override
-            public void adLoadState(boolean isLoaded) {
+
+        AdUtils.showInterstitialAd(activity, isLoaded -> {
                 /*binding.batteryBtm.setBackgroundResource(R.drawable.blur);
                 binding.batteryBtm.setTextColor(getResources().getColor(R.color.white));
                 binding.batteryBtm.getCompoundDrawables()[1].setTint(getResources().getColor(R.color.white));
@@ -378,14 +357,12 @@ public class DashboardActivity extends AppCompatActivity {
 //                loadFragment(new BatteryFragment(DashboardActivity.this));
                 loadFragment(new BatteryFragment());*/
                 binding.bottomNav.setSelectedItemId(R.id.battery_btm_nav);
-            }
         });
     }
 
     public void homeBtmClick(View view) {
-        AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-            @Override
-            public void adLoadState(boolean isLoaded) {
+
+        AdUtils.showInterstitialAd(activity, isLoaded -> {
 /*//                binding.homeBtm.setBackgroundResource(R.drawable.blur);
 //                binding.homeBtm.setTextColor(getResources().getColor(R.color.white));
 //                binding.homeBtm.getCompoundDrawables()[1].setTint(getResources().getColor(R.color.white));
@@ -401,14 +378,13 @@ public class DashboardActivity extends AppCompatActivity {
 //                loadFragment(new HomeFragment(DashboardActivity.this));*/
 
                 binding.bottomNav.setSelectedItemId(R.id.home_btm_nav);
-            }
+
         });
     }
 
     public void animationBtmClick(View view) {
-        AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-            @Override
-            public void adLoadState(boolean isLoaded) {
+
+        AdUtils.showInterstitialAd(activity, isLoaded -> {
                /* binding.animationBtm.setBackgroundResource(R.drawable.blur);
                 binding.animationBtm.setTextColor(getResources().getColor(R.color.white));
                 binding.animationBtm.getCompoundDrawables()[1].setTint(getResources().getColor(R.color.white));
@@ -423,7 +399,7 @@ public class DashboardActivity extends AppCompatActivity {
                 loadFragment(new AnimationFragment());
 //                loadFragment(AnimationFragment.newInstance("animation"));*/
                 binding.bottomNav.setSelectedItemId(R.id.animation_btm_nav);
-            }
+
         });
     }
 }

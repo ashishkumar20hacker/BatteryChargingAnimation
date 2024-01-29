@@ -171,13 +171,14 @@
 
             </LinearLayout>
 
-            <com.adsmodule.api.AdsModule.Interfaces.CustomView
+            <com.adsmodule.api.adsModule.views.NativeView
                 android:id="@+id/adsView0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 app:cardElevation="0dp"
-                app:adType="1" />
+                app:borderColor="#0A99A4"
+                app:adType="FULL" />
 
             <LinearLayout
                 android:id="@+id/downloadsbt"

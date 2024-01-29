@@ -1,10 +1,16 @@
 package com.batteryanimation.neonbatteryeffects.charge;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.play.core.review.ReviewInfo;
@@ -49,7 +55,7 @@ public class Utils {
     private static Intent rateIntentForUrl(Activity contexts, String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("%s?id=%s", url, contexts.getPackageName())));
         int flags = Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (SDK_INT >= 21) {
             flags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
         } else {
             //noinspection deprecation
@@ -57,5 +63,45 @@ public class Utils {
         }
         intent.addFlags(flags);
         return intent;
+    }
+
+    public static void makeStatusBarTransparent(Activity context) {
+        if (SDK_INT >= 19 && SDK_INT < 21) {
+            setWindowFlag(context, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
+        }
+        if (SDK_INT >= 19) {
+            context.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+        //make fully Android Transparent Status bar
+        if (SDK_INT >= 21) {
+            context.getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
+
+    public static void makeStatusBarTransparent2(Activity context) {
+        if (SDK_INT >= 19 && SDK_INT < 21) {
+            setWindowFlag(context, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
+        }
+        if (SDK_INT >= 19) {
+            context.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+        //make fully Android Transparent Status bar
+        if (SDK_INT >= 21) {
+            context.getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
+        /*WindowInsetsControllerCompat.setAppearanceLightStatusBars(true)*/
+    }
+
+    public static void setWindowFlag(Activity activity, final int bits, boolean on) {
+
+        Window win = activity.getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 }

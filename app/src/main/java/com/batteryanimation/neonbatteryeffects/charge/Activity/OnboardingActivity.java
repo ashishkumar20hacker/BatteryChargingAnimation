@@ -1,5 +1,7 @@
 package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,8 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.Adapter.OnBoardingAdapter;
 import com.batteryanimation.neonbatteryeffects.charge.Model.DataModel;
 import com.batteryanimation.neonbatteryeffects.charge.R;
@@ -77,13 +78,13 @@ public class OnboardingActivity extends AppCompatActivity {
         });
 
         binding.btnNext.setOnClickListener(view -> {
-            AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), this, state_load -> {
-                if (binding.viewPager.getCurrentItem() + 1 < adapter.getItemCount()) {
-                    binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
-                } else {
+            if (binding.viewPager.getCurrentItem() + 1 < adapter.getItemCount()) {
+                binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1);
+            } else {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                     startActivity(new Intent(getApplicationContext(), TermsOfUse.class).putExtra("activity", "ob"));
-                }
-            });
+                });
+            }
         });
     }
 
@@ -118,8 +119,8 @@ public class OnboardingActivity extends AppCompatActivity {
         List<DataModel> list = new ArrayList<>();
 
 
-        list.add(new DataModel(getString(R.string.title_1), getString(R.string.desc_1), R.drawable.img_onbaording1,1));
-        list.add(new DataModel(getString(R.string.title_2), getString(R.string.desc_2), R.drawable.img_onbaording2,2));
+        list.add(new DataModel(getString(R.string.title_1), getString(R.string.desc_1), R.drawable.img_onbaording1, 1));
+        list.add(new DataModel(getString(R.string.title_2), getString(R.string.desc_2), R.drawable.img_onbaording2, 2));
         list.add(new DataModel(getString(R.string.title_3), getString(R.string.desc_3), R.drawable.img_onbaording3, R.drawable.onboarding_two));
 
         return list;

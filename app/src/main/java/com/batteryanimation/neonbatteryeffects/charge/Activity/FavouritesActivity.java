@@ -1,6 +1,6 @@
 package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,9 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.Adapter.FavouritesLiveAdapter;
 import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
 import com.batteryanimation.neonbatteryeffects.charge.R;
@@ -62,11 +60,8 @@ public class FavouritesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-            @Override
-            public void appOpenAdState(boolean state_load) {
+        AdUtils.showBackPressAd(activity, isLoaded -> {
                 FavouritesActivity.super.onBackPressed();
-            }
         });
 
     }

@@ -1,7 +1,7 @@
 package com.batteryanimation.neonbatteryeffects.charge.Fragment;
 
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -28,9 +28,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.Activity.AnimationActivity;
 import com.batteryanimation.neonbatteryeffects.charge.Activity.DashboardActivity;
 import com.batteryanimation.neonbatteryeffects.charge.Activity.DownloadsActivity;
@@ -154,9 +152,7 @@ public class HomeFragment extends Fragment {
         binding.nextbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
 
                         bottomNavigationView.setSelectedItemId(R.id.battery_btm_nav);
 //                        batteryBtm.setBackgroundResource(R.drawable.blur);
@@ -172,7 +168,6 @@ public class HomeFragment extends Fragment {
 //                        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new BatteryFragment((DashboardActivity) activity)).addToBackStack(null).commit();
 //                        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new BatteryFragment()).addToBackStack(null).commit();
 
-                    }
                 });
             }
         });
@@ -180,9 +175,7 @@ public class HomeFragment extends Fragment {
         binding.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         /*animationBtm.setBackgroundResource(R.drawable.blur);
                         animationBtm.setTextColor(getResources().getColor(R.color.white));
                         animationBtm.getCompoundDrawables()[1].setTint(getResources().getColor(R.color.white));
@@ -196,7 +189,6 @@ public class HomeFragment extends Fragment {
 
                         startActivity(new Intent(requireActivity(), AnimationActivity.class).putExtra("load", "Animation"));
 
-                    }
                 });
             }
         });
@@ -204,11 +196,8 @@ public class HomeFragment extends Fragment {
         binding.downloadsbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AdUtils.showInterstitialAd(Constants.adsResponseModel.getInterstitial_ads().getAdx(), activity, new AppInterfaces.InterstitialADInterface() {
-                    @Override
-                    public void adLoadState(boolean isLoaded) {
+                AdUtils.showInterstitialAd(activity, isLoaded -> {
                         startActivity(new Intent(requireActivity(), DownloadsActivity.class));
-                    }
                 });
 
             }

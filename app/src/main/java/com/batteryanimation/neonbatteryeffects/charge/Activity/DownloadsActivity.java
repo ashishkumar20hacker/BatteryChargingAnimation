@@ -1,10 +1,11 @@
 package com.batteryanimation.neonbatteryeffects.charge.Activity;
 
-import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.AppOpenAds.activity;
+import static com.batteryanimation.neonbatteryeffects.charge.SingletonClasses.LifeCycleOwner.activity;
 
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -26,9 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adsmodule.api.AdsModule.AdUtils;
-import com.adsmodule.api.AdsModule.Interfaces.AppInterfaces;
-import com.adsmodule.api.AdsModule.Utils.Constants;
+import com.adsmodule.api.adsModule.utils.AdUtils;
 import com.batteryanimation.neonbatteryeffects.charge.Adapter.FavouritesLiveAdapter;
 import com.batteryanimation.neonbatteryeffects.charge.BuildConfig;
 import com.batteryanimation.neonbatteryeffects.charge.Model.Wallpaper;
@@ -88,11 +87,8 @@ public class DownloadsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        AdUtils.showBackPressAds(activity, Constants.adsResponseModel.getApp_open_ads().getAdx(), new AppInterfaces.AppOpenADInterface() {
-            @Override
-            public void appOpenAdState(boolean state_load) {
+        AdUtils.showBackPressAd(activity, isLoaded -> {
                 DownloadsActivity.super.onBackPressed();
-            }
         });
 
     }
@@ -242,6 +238,27 @@ public class DownloadsActivity extends AppCompatActivity {
                     alertDialog.show();
                     alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.white));
                     alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.white));
+                }
+            });
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (paths.get(position).file_path.contains(".gif")) {
+                        Intent intent = new Intent(getApplicationContext(), AnimationPreviewActivity.class);
+                        intent.putExtra("imageUrlCharge", paths.get(position).file_path);
+                        intent.putExtra("position", position);
+                        intent.putExtra("show", false);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), CategoryShowActivity.class);
+                        intent.putExtra("imageUrl", paths.get(position).file_path);
+                        intent.putExtra("position", position);
+                        intent.putExtra("show", false);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
                 }
             });
 

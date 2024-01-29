@@ -20,6 +20,7 @@ import com.batteryanimation.neonbatteryeffects.charge.R;
 import com.batteryanimation.neonbatteryeffects.charge.SetWallPaperListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -54,7 +55,7 @@ public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.View
 
         holder.delete.setVisibility(View.GONE);
 
-        Glide.with(context).load(lockThemeModelArrayList.get(position).getUrl()).listener(new RequestListener<Drawable>() {
+        Glide.with(context).load(lockThemeModelArrayList.get(position).getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, @Nullable Object model, @NonNull Target<Drawable> target, boolean isFirstResource) {
                 holder.progressBar.setVisibility(View.GONE);

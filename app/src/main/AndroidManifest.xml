@@ -35,11 +35,7 @@
             <action android:name="android.support.customtabs.action.CustomTabsService" />
         </intent>
     </queries>
-    <!--
-        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-        <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> -->
+
     <uses-feature
         android:name="android.software.live_wallpaper"
         android:required="true" />
@@ -64,7 +60,7 @@
             android:name=".Activity.CategoryShowActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-       <activity
+        <activity
             android:name=".Activity.AnimationActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
